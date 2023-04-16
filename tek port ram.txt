@@ -1,0 +1,26 @@
+module single_port_ram
+    #(
+        parameter DATA_WIDTH = 8, // Veri genişliği
+        parameter ADDR_WIDTH = 10 // Adres genişliği
+    )
+    (
+        input clk,         // Saat sinyali
+        input write_en,    // Yazma izni sinyali
+        input [ADDR_WIDTH-1:0] addr,  // Adres sinyali
+        input [DATA_WIDTH-1:0] data_in,  // Giriş veri sinyali
+        output reg [DATA_WIDTH-1:0] data_out  // Çıkış veri sinyali
+    );
+ 
+    reg [DATA_WIDTH-1:0] mem [2**ADDR_WIDTH-1:0]; // Bellek tanımlaması
+ 
+    // Veri yazma işlemi
+    always @ (posedge clk) begin
+        if (write_en) begin
+            mem[addr] <= data_in;
+        end
+    end
+ 
+    // Veri okuma işlemi
+    assign data_out = mem[addr];
+ 
+endmodule
